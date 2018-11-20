@@ -1,0 +1,32 @@
+
+type Query {
+  game(gameId: ID!) Game!
+  user(id: String!) User!
+}
+
+type Game {
+  id: ID!,
+  rated: Boolean!,
+  variant: String!,
+  speed: String!,
+  # no idea what this field is
+  perf: String!,
+  createdAt: Int!,
+  lastMoveAt: Int!,
+  turns: Int!,
+  color: Color!,
+  # could be an enum but I don't know the values
+  status: String!,
+  # complicated field
+  # players:
+  winner: Color!,
+  url: String!
+}
+
+type User {
+  id: String!
+}
+
+enum Color {
+  BLACK, WHITE
+}
