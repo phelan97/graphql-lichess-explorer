@@ -1,8 +1,12 @@
 
 type Query {
-  game(gameId: ID!) Game!
-  user(id: String!) User!
+  game(gameId: ID!): Game!,
+  user(id: String!): User!
 }
+
+# type Mutation {
+
+# }
 
 type Game {
   id: ID!,
@@ -14,19 +18,35 @@ type Game {
   createdAt: Int!,
   lastMoveAt: Int!,
   turns: Int!,
-  color: Color!,
+  # turn into a Color enum
+  color: String!,
   # could be an enum but I don't know the values
   status: String!,
-  # complicated field
-  # players:
-  winner: Color!,
+  clock: Clock!,
+  players: GamePlayers!,
+  # turn winner into a Color enum
+  winner: String!,
   url: String!
 }
 
-type User {
-  id: String!
+type Clock {
+  initial: Int!,
+  increment: Int!,
+  totalTime: Int!
 }
 
-enum Color {
-  BLACK, WHITE
+type GamePlayers {
+  white: PlayerInfo!,
+  black: PlayerInfo!
 }
+
+type PlayerInfo {
+  userId: String!,
+  rating: Int!,
+  # rating change from that game
+  ratingDiff: Int!
+}
+
+# enum Color {
+#   BLACK, WHITE
+# }
