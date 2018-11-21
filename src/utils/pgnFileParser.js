@@ -1,28 +1,32 @@
 
+const {GAME_URL} = require('../config');
+
+// this function could parse more tags to get who played what color, the date, rating information, etc.
+// color and user information would probably be the most useful since they're common operations
 const createGameArray = function(data) {
-  let games = 0;
-  const output = [];
+  const games = [];
+  let currentGame = {};
   for(const line of data.split('\n')) {
-    let currentGameObj = {};
     if(line === '')
       continue;
     // tag parsing
     if(line.startsWith('[')) {
-      const siteTag = /\[Site "(.*)"\]/g;
+      const siteTag = /\[Site "(.*?)"\]/;
       if(siteTag.test(line)) {
-        const url = line.match(siteTag)[0];
-        const id = url.split('/')[-1];
-        currentGameObj.url = url;
-        console.log(url);
-        console.log(id);
+        // currentGame = {};
+        const url = line.match(siteTag)[1];
+        const id = url.slice(url.lastIndexOf('/')+1);
+        currentGame.url = url;
+        currentGame.detailsUrl = GAME_URL + id;
+        currentGame.id = id;
       }
     } else if(line.startsWith('1.')) {
-      console.log(line);
-      games++;
+      currentGame.pgn = line;
+      games.push(currentGame);
+      currentGame = {};
     }
-    // console.log('line', line);
   }
-  return [{id: 1, url:'placeholder', pgn:'pgn here'}]
-}
+  return games;
+};
 
 module.exports = {createGameArray};

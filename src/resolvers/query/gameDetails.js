@@ -1,7 +1,6 @@
 const axios = require('axios');
+const {GAME_URL} = require('../../config');
 
 module.exports = async (root, args) => await axios
-  .get(`https://lichess.org/api/game/${args.id}`)
-  // .catch(() => {})
-  // .then(() => console.log(`https://lichess.org/api/game/${args.gameId}`))
+  .get(GAME_URL + args.id)
   .then(response => response.data);
