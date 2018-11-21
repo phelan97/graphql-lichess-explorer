@@ -1,13 +1,10 @@
 
 type Query {
-  gameInfo(id: ID!): GameInfo!,
+  gameDetails(id: ID!): GameDetails!,
   # requires an export call to the lichess api if the game isn't already saved to the db (lookup by game id)
   gamePGN(id: ID!): String!,
-  user(username: String!): User!
-}
-
-type Mutation {
-  requestGames(username: String!, limit: Int!): [String!]!
+  user(username: String!): User!,
+  games(username: String!, limit: Int!): [Game!]!
 }
 
 type User {
@@ -41,7 +38,14 @@ type GameCount {
   me: Int!
 }
 
-type GameInfo {
+type Game {
+  id: ID!,
+  url: String!,
+  detailsUrl: String!
+  pgn: String!
+}
+
+type GameDetails {
   id: ID!,
   rated: Boolean!,
   variant: String!,

@@ -1,5 +1,6 @@
 
-const gameInfo = require('./gameInfo');
+const gameDetails = require('./gameDetails');
 const user = require('./user');
+const games = require('./games');
 
-module.exports = { gameInfo, user };
+module.exports = { gameDetails, user, games };
