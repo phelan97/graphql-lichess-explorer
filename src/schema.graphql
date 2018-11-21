@@ -1,9 +1,11 @@
 
 type Query {
   gameDetails(id: ID!): GameDetails!,
-  # requires an export call to the lichess api if the game isn't already saved to the db (lookup by game id)
-  gamePGN(id: ID!): String!,
   user(username: String!): User!,
+  # Doesn't seem to be supported by the lichess API, even though it's documented.
+  # It might be possible to create an ad-hoc lookup (or check against a db if it's local)
+  # game(id: ID!): Game!,
+  # This query downloads and parses a large file every time. It takes awhile to run!
   games(username: String!, limit: Int!): [Game!]!
 }
 
