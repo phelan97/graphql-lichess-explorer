@@ -1,19 +1,51 @@
 
 type Query {
-  game(gameId: ID!): Game!,
-  user(id: String!): User!
+  gameInfo(id: ID!): GameInfo!,
+  # requires an export call to the lichess api if the game isn't already saved to the db (lookup by game id)
+  gamePGN(id: ID!): String!,
+  user(username: String!): User!
 }
 
-# type Mutation {
+type Mutation {
+  requestGames(username: String!, limit: Int!): [String!]!
+}
 
-# }
+type User {
+  id: String!,
+  username: String!,
+  online: Boolean!,
+  profile: Profile!,
+  title: String!,
+  url: String!,
+  count: GameCount!
+}
 
-type Game {
+type Profile {
+  bio: String!,
+  fideRating: Int!
+}
+
+type GameCount {
+  all: Int!,
+  rated: Int!,
+  ai: Int!,
+  draw: Int!,
+  drawH: Int!,
+  loss: Int!,
+  lossH: Int!,
+  win: Int!,
+  winH: Int!,
+  bookmark: Int!,
+  playing: Int!,
+  import: Int!,
+  me: Int!
+}
+
+type GameInfo {
   id: ID!,
   rated: Boolean!,
   variant: String!,
   speed: String!,
-  # no idea what this field is
   perf: String!,
   createdAt: Int!,
   lastMoveAt: Int!,
@@ -43,7 +75,6 @@ type GamePlayers {
 type PlayerInfo {
   userId: String!,
   rating: Int!,
-  # rating change from that game
   ratingDiff: Int!
 }
 
