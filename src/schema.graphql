@@ -7,6 +7,34 @@ type Query {
   # game(id: ID!): Game!,
   # This query downloads and parses a large file every time. It takes awhile to run!
   games(username: String!, limit: Int!): [Game!]!
+
+  ### app specific, requires auth ###
+  loadGames: [AnnotatedGame!]!
+  loadGame(gameId: ID!) AnnotatedGame!
+}
+
+type Mutation {
+  createAccount(email: String!, password: String!): String!
+  login(email: String!, password: String!): String!
+  ### requires auth ###
+  saveGame(game: AnnotatedGame!)
+}
+
+type AnnotatedGame {
+  game: Game!
+  moveAnnotations: [AnnotatedMove!]!
+  boardAnnotation: [AnnotatedBoard!]!
+}
+
+type AnnotatedMove {
+  turn: Int!,
+  comment: String!
+}
+
+type AnnotatedBoard {
+  turn: Int!,
+  # assume base64 encoded image for now
+  data: String!
 }
 
 type User {
@@ -62,7 +90,7 @@ type GameDetails {
   status: String!,
   clock: Clock!,
   players: GamePlayers!,
-  # turn winner into a Color enum
+  # turn into a Color enum
   winner: String!,
   url: String!
 }
